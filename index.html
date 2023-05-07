@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>結婚式席次表検索</title>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script>
+        function handleClientLoad() {
+            gapi.load('client', initClient);
+        }
+
+        function initClient() {
+            gapi.client.init({
+                apiKey: 'AIzaSyDO1AjoCsVlL4KSuJMzHLWlCDjdw7NVcLE',
+                discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
+            }).then(function () {
+                document.getElementById("search-button").disabled = false;
+            });
+        }
+
+        function searchTable() {
+            const name = document.getElementById("name").value;
+            gapi.client.sheets.spreadsheets.values.get({
+                spreadsheetId: '1pv_LXNh8RAwLQWsUPPqY4ZFyKKLbdSI2zDxZR67_3xY',
+                range: 'Sheet1!A2:B',
+            }).then(function (response) {
+                const dataArray = response.result.values;
+                const result = dataArray.find(data => data[0] === name);
+
+                if (result) {
+                    document.getElementById("result").innerHTML = `${name}さんのテーブル番号は ${result[1]} です。`;
+                } else {
+                    document.getElementById("result").innerHTML = "お名前が見つかりませんでした。もう一度入力してください。";
+                }
+            }, function (response) {
+                document.getElementById("result").innerHTML = "エラーが発生しました。もう一度お試しください。";
+            });
+        }
+    </script>
+</head>
+<body onload="handleClientLoad()">
+    <h1>結婚式席次表検索</h1>
+    <p>お名前を入力してください:</p>
+    <input type="text" id="name">
+    <button id="search-button" onclick="searchTable()" disabled>送信</button>
+    <p id="result"></p>
+</body>
+</html>
