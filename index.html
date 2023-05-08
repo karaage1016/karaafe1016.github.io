@@ -37,7 +37,7 @@
             if (guest) {
                 const tableNumber = guest[1];
                 const tableLocation = guest[2];
-                document.getElementById('result').innerHTML = `<p>テーブルナンバー: ${tableNumber}</p><img src="${tableLocation}" width="640" height="480" alt="テーブル位置図">`;
+                document.getElementById('result').innerHTML = `<p>テーブルナンバー: ${tableNumber}</p><img src="${tableLocation}" alt="テーブル位置図">`;
             } else {
                 document.getElementById('result').textContent = 'お名前が見つかりませんでした。もう一度お試しください。';
             }
